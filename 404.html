@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>404 — Страница не найдена</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card" style="max-width:700px;margin:80px auto;text-align:center;">
+    <h1>404 — Страница не найдена</h1>
+    <p>Но у нас есть игра: угадай картинку, созданную нейросетью!</p>
+    <div class="grid">
+      <img src="assets/trips.jpg" id="A" style="width:100%;cursor:pointer;border-radius:12px;">
+      <img src="assets/films.jpg" id="B" style="width:100%;cursor:pointer;border-radius:12px;">
+    </div>
+    <p id="result" style="margin-top:20px;font-weight:bold;"></p>
+  </main>
+  <script>
+    document.getElementById('A').onclick = () => check('A');
+    document.getElementById('B').onclick = () => check('B');
+    function check(choice){
+      const res=document.getElementById('result');
+      if(choice==='B'){
+        res.textContent='Правильно! Эта картинка создана нейросетью. Возвращаю на главную...';
+        setTimeout(()=>location.href='index.html',2000);
+      } else {
+        res.textContent='Неверно! Попробуй снова.';
+      }
+    }
+  </script>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  const audio = new Audio('assets/interaction.wav');
+  let playTimer = null;
+
+  function play300ms() {
+    try { audio.currentTime = 0; } catch (e) { /* ignore if not allowed yet */ }
+    const p = audio.play();
+    if (playTimer) { clearTimeout(playTimer); playTimer = null; }
+    playTimer = setTimeout(() => {
+      try { audio.pause(); audio.currentTime = 0; } catch (e) { }
+      playTimer = null;
+    }, 300);
+    if (p && typeof p.catch === 'function') p.catch(()=>{});
+  }
+
+  document.querySelectorAll('img').forEach(img=>{
+    img.addEventListener('click', play300ms);
+  });
+
+  audio.addEventListener('ended', ()=>{
+    if (playTimer) { clearTimeout(playTimer); playTimer = null; }
+    try { audio.currentTime = 0; } catch(e){}
+  });
+});
+</script>
+</body>
+</html>
