@@ -17,6 +17,7 @@
       <a href="#it">IT</a>
       <a href="#work">Страдание</a>
       <a href="#boast">Похвастаться</a>
+      <a href="#music">Музыка</a>
     </nav>
   </header>
 
@@ -25,7 +26,7 @@
       <img src="assets/hero.jpg" alt="Главное">
       <div class="overlay">
         <h1>Добро пожаловать!</h1>
-        <p>Я делюсь своим опытом: поездки, фильмы, IT, работа и личные достижения.</p>
+        <p>На этом сайте я раскажу как я провел лето, а точнее: поездки,фильмы и сериалы которые я посмотрел, как я работал и немного похвастаюсь.</p>
       </div>
     </section>
 
@@ -45,14 +46,17 @@
           <p>Добрый мультфильм о семье и дружбе. Красочная анимация, много юмора и трогательных моментов.</p>
         </div>
         <div class="film">
+          <img src="assets/wane.jpg" alt="Уэйн">
           <h3>Уэйн</h3>
           <p>Сериал о подростке с непростым характером, который отправляется в путешествие ради своей мечты. Драйвовый сюжет и необычная атмосфера.</p>
         </div>
         <div class="film">
+          <img src="assets/kpop.jpg" alt="Кейпоп: охотницы на демонов">
           <h3>Кейпоп: охотницы на демонов</h3>
           <p>Оригинальная идея — группа идолов сражается с демонами. Микс музыки, боевика и фэнтези.</p>
         </div>
         <div class="film">
+          <img src="assets/jujustsu.jpg" alt="Магическая битва 0">
           <h3>Магическая битва 0</h3>
           <p>Фильм-аниме во вселенной «Jujutsu Kaisen». Захватывающие бои, магия и драматичная история.</p>
         </div>
@@ -75,9 +79,21 @@
 
     <section id="boast" class="card">
       <h2>Похвастаться</h2>
-      <img src="assets/quest3.jpg" alt="Meta Quest 3" class="img">
+      <img src="assets/+rep.jpg" alt="Похвастаться" class="img">
       <p>Наконец-то я купил Meta Quest 3! Ощущения невероятные: яркая картинка, лёгкость устройства и удобные контроллеры. Первые впечатления — это совершенно новый уровень виртуальной реальности.</p>
       <p>Я планирую использовать его не только для игр, но и для обучения, работы с 3D-моделями и общения. Это шаг в будущее технологий!</p>
+    </section>
+
+    <section id="music" class="card">
+      <h2>Музыка</h2>
+      <div class="music-controls">
+        <div class="music-info">Фоновой трек</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button id="music-toggle" class="music-btn">Включить</button>
+          <button id="music-volume" class="music-btn secondary">Уменьшить громкость</button>
+        </div>
+        <div class="music-info" id="music-status" style="margin-top:6px;">Остановлено</div>
+      </div>
     </section>
   </main>
 
@@ -115,6 +131,47 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if (playTimer) { clearTimeout(playTimer); playTimer = null; }
     try { audio.currentTime = 0; } catch(e){}
   });
+
+  // Background music controls
+  const bgAudio = new Audio('assets/Shotgun_Willy_-_Bombs_Away_77026965.mp3');
+  bgAudio.loop = true;
+  let bgWasLow = false;
+  let prevVolume = bgAudio.volume;
+
+  const musicToggle = document.getElementById('music-toggle');
+  const musicVolume = document.getElementById('music-volume');
+  const musicStatus = document.getElementById('music-status');
+
+  if (musicToggle) {
+    musicToggle.addEventListener('click', () => {
+      if (bgAudio.paused) {
+        const p = bgAudio.play();
+        if (p && typeof p.catch === 'function') p.catch(()=>{});
+        musicToggle.textContent = 'Остановить';
+        musicStatus.textContent = 'Играет';
+      } else {
+        bgAudio.pause();
+        try { bgAudio.currentTime = 0; } catch(e){}
+        musicToggle.textContent = 'Включить';
+        musicStatus.textContent = 'Остановлено';
+      }
+    });
+  }
+
+  if (musicVolume) {
+    musicVolume.addEventListener('click', () => {
+      if (!bgWasLow) {
+        prevVolume = bgAudio.volume;
+        bgAudio.volume = 0.1;
+        bgWasLow = true;
+        musicVolume.textContent = 'Вернуть громкость';
+      } else {
+        bgAudio.volume = prevVolume || 1.0;
+        bgWasLow = false;
+        musicVolume.textContent = 'Уменьшить громкость';
+      }
+    });
+  }
 });
 </script>
 </body>

@@ -61,4 +61,9 @@ h1, h2 { margin-bottom:16px; color: var(--accent); }
 .film:hover { transform:scale(1.05); }
 .film img { width:100%; border-radius:8px; margin-bottom:10px; }
 footer { text-align:center; padding:20px; background:#161b22; border-radius:12px 12px 0 0; margin-top:40px; }
+/* Music controls */
+.music-controls { display:flex; flex-direction:column; gap:12px; align-items:flex-start; }
+.music-btn { background: var(--accent); color: #fff; border: none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600; }
+.music-btn.secondary { background:#2b3137; }
+.music-info { color:var(--fg); opacity:0.9; }
 @keyframes float { 0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)} }
